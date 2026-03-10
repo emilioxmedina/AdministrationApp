@@ -10,9 +10,9 @@ import { useAuth } from '@/contexts/auth-context';
 import { AxiosError } from 'axios';
 
 const schema = z.object({
-  username: z.string().min(1, 'Username is required').max(100),
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
+  username: z.string().min(1, 'El nombre de usuario es requerido').max(100),
+  email: z.string().email('Correo electrónico inválido'),
+  password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
   role: z.enum(['admin', 'viewer']).optional(),
 });
 type FormData = z.infer<typeof schema>;
@@ -34,7 +34,7 @@ export default function RegisterPage() {
       router.push('/login');
     } catch (err) {
       const e = err as AxiosError<{ message: string }>;
-      setApiError(e.response?.data?.message || 'Registration failed. Please try again.');
+      setApiError(e.response?.data?.message || 'El registro falló. Por favor intenta de nuevo.');
     }
   };
 
@@ -42,8 +42,8 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
       <div className="bg-white rounded-2xl shadow-md w-full max-w-md p-8 space-y-6">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-indigo-700">Create account</h1>
-          <p className="text-sm text-gray-500 mt-1">Join the Admin App</p>
+          <h1 className="text-2xl font-bold text-indigo-700">Crear cuenta</h1>
+          <p className="text-sm text-gray-500 mt-1">Únete al Admin App</p>
         </div>
 
         {apiError && (
@@ -54,45 +54,45 @@ export default function RegisterPage() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Nombre de usuario</label>
             <input
               {...register('username')}
-              placeholder="johndoe"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              placeholder="juanperez"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-900"
             />
             {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username.message}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</label>
             <input
               {...register('email')}
               type="email"
-              placeholder="you@example.com"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              placeholder="tu@ejemplo.com"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-900"
             />
             {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
             <input
               {...register('password')}
               type="password"
-              placeholder="Min. 8 characters"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              placeholder="Mín. 8 caracteres"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-900"
             />
             {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Rol</label>
             <select
               {...register('role')}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-900"
             >
-              <option value="viewer">Viewer</option>
-              <option value="admin">Admin</option>
+              <option value="viewer">Visor</option>
+              <option value="admin">Administrador</option>
             </select>
           </div>
 
@@ -101,16 +101,23 @@ export default function RegisterPage() {
             disabled={isSubmitting}
             className="w-full bg-indigo-600 text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition disabled:opacity-60"
           >
-            {isSubmitting ? 'Creating account…' : 'Create Account'}
+            {isSubmitting ? 'Creando cuenta…' : 'Crear cuenta'}
           </button>
         </form>
 
         <p className="text-center text-sm text-gray-500">
-          Already have an account?{' '}
+          ¿Ya tienes cuenta?{' '}
           <Link href="/login" className="text-indigo-600 font-medium hover:underline">
-            Sign in
+            Inicia sesión
           </Link>
         </p>
+
+        <Link
+          href="/"
+          className="flex items-center justify-center gap-1 text-sm text-gray-400 hover:text-gray-600 transition"
+        >
+          ← Volver al inicio
+        </Link>
       </div>
     </div>
   );

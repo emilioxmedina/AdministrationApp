@@ -5,9 +5,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/auth-context';
 
 const navItems = [
-  { href: '/dashboard', label: 'Dashboard', icon: '🏠' },
-  { href: '/employees', label: 'Employees', icon: '👥' },
-  { href: '/inventory', label: 'Inventory', icon: '📦' },
+  { href: '/dashboard', label: 'Panel', icon: '🏠' },
+  { href: '/employees', label: 'Empleados', icon: '👥' },
+  { href: '/inventory', label: 'Inventario', icon: '📦' },
 ];
 
 export default function Sidebar() {
@@ -24,7 +24,7 @@ export default function Sidebar() {
     <aside className="w-64 min-h-screen bg-indigo-800 text-white flex flex-col">
       <div className="px-6 py-5 border-b border-indigo-700">
         <h1 className="text-xl font-bold tracking-tight">Admin App</h1>
-        <p className="text-xs text-indigo-300 mt-1 capitalize">{user?.role ?? '…'} account</p>
+        <p className="text-xs text-indigo-300 mt-1 capitalize">Cuenta {user?.role === 'admin' ? 'administrador' : user?.role === 'viewer' ? 'visor' : '…'}</p>
       </div>
 
       <nav className="flex-1 px-3 py-4 space-y-1">
@@ -53,7 +53,7 @@ export default function Sidebar() {
           onClick={handleLogout}
           className="w-full text-left text-sm text-indigo-200 hover:text-white transition px-1"
         >
-          ← Sign out
+          ← Cerrar sesión
         </button>
       </div>
     </aside>

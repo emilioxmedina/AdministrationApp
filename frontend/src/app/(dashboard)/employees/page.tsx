@@ -32,7 +32,7 @@ export default function EmployeesPage() {
   );
 
   const handleDelete = async (id: number) => {
-    if (!confirm('Delete this employee?')) return;
+    if (!confirm('¿Eliminar este empleado?')) return;
     await api.delete(`/employees/${id}`);
     setEmployees((prev) => prev.filter((e) => e.id !== id));
   };
@@ -40,13 +40,13 @@ export default function EmployeesPage() {
   return (
     <div className="p-8 space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-800">Employees</h2>
+        <h2 className="text-2xl font-bold text-gray-800">Empleados</h2>
         {isAdmin && (
           <Link
             href="/employees/new"
             className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition"
           >
-            + Add Employee
+            + Agregar empleado
           </Link>
         )}
       </div>
@@ -54,8 +54,8 @@ export default function EmployeesPage() {
       <input
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search by name or email…"
-        className="w-full max-w-sm border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        placeholder="Buscar por nombre o correo…"
+        className="w-full max-w-sm border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-900"
       />
 
       {loading ? (
@@ -63,13 +63,13 @@ export default function EmployeesPage() {
           {[...Array(5)].map((_, i) => <div key={i} className="bg-white rounded-lg h-12 animate-pulse" />)}
         </div>
       ) : filtered.length === 0 ? (
-        <p className="text-gray-500 text-sm">No employees found.</p>
+        <p className="text-gray-500 text-sm">No se encontraron empleados.</p>
       ) : (
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-gray-500 uppercase text-xs">
               <tr>
-                {['Name', 'Email', 'Phone', 'Created', 'Actions'].map((h) => (
+                {['Nombre', 'Correo', 'Teléfono', 'Creado', 'Acciones'].map((h) => (
                   <th key={h} className="px-4 py-3 text-left font-medium">{h}</th>
                 ))}
               </tr>
@@ -85,8 +85,8 @@ export default function EmployeesPage() {
                     <div className="flex gap-2">
                       {isAdmin && (
                         <>
-                          <Link href={`/employees/${emp.id}`} className="text-indigo-600 hover:underline">Edit</Link>
-                          <button onClick={() => handleDelete(emp.id)} className="text-red-500 hover:underline">Delete</button>
+                          <Link href={`/employees/${emp.id}`} className="text-indigo-600 hover:underline">Editar</Link>
+                          <button onClick={() => handleDelete(emp.id)} className="text-red-500 hover:underline">Eliminar</button>
                         </>
                       )}
                     </div>

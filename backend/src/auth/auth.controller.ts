@@ -6,6 +6,7 @@ import {
   Req,
   HttpCode,
   HttpStatus,
+  UnauthorizedException,
 } from '@nestjs/common';
 import type { Response, Request } from 'express';
 import { AuthService } from './auth.service.js';
@@ -43,9 +44,18 @@ export class AuthController {
 
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  async refresh(@Req() req: Request) {
+  async refresh(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
     const token = req.cookies?.['refresh_token'];
-    return this.authService.refresh(token);
+    try {
+      return await this.authService.refresh(token);
+    } catch {
+      // Clear the stale/invalid cookie so the middleware stops bouncing the user
+      res.clearCookie('refresh_token');
+      throw new UnauthorizedException('Invalid or expired refresh token');
+    }
   }
 
   @Post('logout')

@@ -10,8 +10,8 @@ import { useAuth } from '@/contexts/auth-context';
 import { AxiosError } from 'axios';
 
 const schema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(1, 'Password is required'),
+  email: z.string().email('Correo electrónico inválido'),
+  password: z.string().min(1, 'La contraseña es requerida'),
 });
 type FormData = z.infer<typeof schema>;
 
@@ -31,7 +31,7 @@ export default function LoginPage() {
       router.push('/dashboard');
     } catch (err) {
       const e = err as AxiosError<{ message: string }>;
-      setApiError(e.response?.data?.message || 'Invalid email or password');
+      setApiError(e.response?.data?.message || 'Correo o contraseña incorrectos');
     }
   };
 
@@ -39,8 +39,8 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
       <div className="bg-white rounded-2xl shadow-md w-full max-w-md p-8 space-y-6">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-indigo-700">Welcome back</h1>
-          <p className="text-sm text-gray-500 mt-1">Sign in to your account</p>
+          <h1 className="text-2xl font-bold text-indigo-700">Bienvenido de nuevo</h1>
+          <p className="text-sm text-gray-500 mt-1">Inicia sesión en tu cuenta</p>
         </div>
 
         {apiError && (
@@ -51,23 +51,23 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</label>
             <input
               {...register('email')}
               type="email"
-              placeholder="you@example.com"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              placeholder="tu@ejemplo.com"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-900"
             />
             {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
             <input
               {...register('password')}
               type="password"
               placeholder="••••••••"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-900"
             />
             {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
           </div>
@@ -77,16 +77,23 @@ export default function LoginPage() {
             disabled={isSubmitting}
             className="w-full bg-indigo-600 text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition disabled:opacity-60"
           >
-            {isSubmitting ? 'Signing in…' : 'Sign In'}
+            {isSubmitting ? 'Iniciando sesión…' : 'Iniciar sesión'}
           </button>
         </form>
 
         <p className="text-center text-sm text-gray-500">
-          Don&apos;t have an account?{' '}
+          ¿No tienes cuenta?{' '}
           <Link href="/register" className="text-indigo-600 font-medium hover:underline">
-            Register
+            Regístrate
           </Link>
         </p>
+
+        <Link
+          href="/"
+          className="flex items-center justify-center gap-1 text-sm text-gray-400 hover:text-gray-600 transition"
+        >
+          ← Volver al inicio
+        </Link>
       </div>
     </div>
   );

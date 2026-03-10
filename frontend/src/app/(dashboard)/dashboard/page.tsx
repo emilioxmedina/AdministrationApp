@@ -28,6 +28,7 @@ export default function DashboardPage() {
   const { user } = useAuth();
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -44,6 +45,8 @@ export default function DashboardPage() {
           totalValue: items.reduce((sum, i) => sum + Number(i.price) * i.stock, 0),
           lowStock: items.filter((i) => i.stock < 5).length,
         });
+      } catch {
+        setError(true);
       } finally {
         setLoading(false);
       }
@@ -53,8 +56,8 @@ export default function DashboardPage() {
   return (
     <div className="p-8 space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-800">Dashboard</h2>
-        <p className="text-gray-500 text-sm mt-1">Welcome back, {user?.email}</p>
+        <h2 className="text-2xl font-bold text-gray-800">Panel</h2>
+        <p className="text-gray-500 text-sm mt-1">Bienvenido de nuevo, {user?.email}</p>
       </div>
 
       {loading ? (
@@ -63,21 +66,23 @@ export default function DashboardPage() {
             <div key={i} className="bg-white rounded-xl p-6 shadow-sm animate-pulse h-28" />
           ))}
         </div>
+      ) : error || !stats ? (
+        <p className="text-red-500 text-sm">Error al cargar los datos. Por favor recarga la página.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard icon="👥" label="Total Employees" value={stats!.totalEmployees} />
-          <StatCard icon="📦" label="Inventory Items" value={stats!.totalItems} />
+          <StatCard icon="👥" label="Total de empleados" value={stats.totalEmployees} />
+          <StatCard icon="📦" label="Productos en inventario" value={stats.totalItems} />
           <StatCard
             icon="💰"
-            label="Inventory Value"
-            value={`$${stats!.totalValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}`}
-            sub="total stock value"
+            label="Valor del inventario"
+            value={`Q${stats.totalValue.toLocaleString('es-GT', { minimumFractionDigits: 2 })}`}
+            sub="valor total en stock"
           />
           <StatCard
             icon="⚠️"
-            label="Low Stock"
-            value={stats!.lowStock}
-            sub="items with stock < 5"
+            label="Stock bajo"
+            value={stats.lowStock}
+            sub="Productos con stock < 5"
           />
         </div>
       )}
